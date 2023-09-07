@@ -1,9 +1,9 @@
 .vs
 bin/
 obj/
-.nuke
 affected.proj
 output/
 Try.Dotnet.Affected.Tests/TestResults
 Try.Dotnet.Affected.sln.DotSettings.user
 affected.txt
+.nuke/temp
