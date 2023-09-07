@@ -66,6 +66,7 @@ class Build : NukeBuild,
                     .Add("--to", GitHubActions.BaseRef);
             }
 
+            DotNetTasks.DotNetToolRestore();
             DotNetTasks.DotNet(args.ToString(), exitHandler: DotnetToolExitHandler);
 
             var toBuildJson = File.ReadAllText("affected.json");
