@@ -15,6 +15,7 @@ using Nuke.Common.Tools.DotNet;
     "continuous",
     GitHubActionsImage.WindowsLatest,
     On = new[] { GitHubActionsTrigger.Push },
+    FetchDepth = 0,
     InvokedTargets = new[] { nameof(CompileSolution) })]
 class Build : NukeBuild,
     ITryDotnetAffectedBuild,
@@ -56,14 +57,22 @@ class Build : NukeBuild,
 
             if (AzurePipelines != null)
             {
-                args.Add("--from", AzurePipelines.PullRequestSourceBranch)
-                    .Add("--to", AzurePipelines.PullRequestTargetBranch);
+                args.Add("--from {value}", AzurePipelines.PullRequestSourceBranch)
+                    .Add("--to {value}", AzurePipelines.PullRequestTargetBranch);
             }
 
-            if (GitHubActions is { IsPullRequest: true })
+            if (GitHubActions != null)
             {
-                args.Add("--from", GitHubActions.HeadRef)
-                    .Add("--to", GitHubActions.BaseRef);
+                if (GitHubActions.IsPullRequest)
+                {
+                    args.Add("--from {value}", GitHubActions.HeadRef)
+                        .Add("--to {value}", GitHubActions.BaseRef);
+                }
+                else
+                {
+                    Console.WriteLine(GitHubActions.GitHubEvent);
+                    args.Add("--from {value}", GitHubActions.GitHubEvent["before"]?.ToString());
+                }
             }
 
             DotNetTasks.DotNetToolRestore();
