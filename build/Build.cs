@@ -13,7 +13,7 @@ using Nuke.Common.Tools.DotNet;
 [SuppressMessage("ReSharper", "UnusedMember.Local")]
 [GitHubActions(
     "continuous",
-    GitHubActionsImage.UbuntuLatest,
+    GitHubActionsImage.WindowsLatest,
     On = new[] { GitHubActionsTrigger.Push },
     InvokedTargets = new[] { nameof(CompileSolution) })]
 class Build : NukeBuild,
