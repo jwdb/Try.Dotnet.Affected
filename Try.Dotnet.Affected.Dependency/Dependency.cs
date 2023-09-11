@@ -4,7 +4,7 @@
     {
         public Dependency()
         {
-            Console.WriteLine("It depends really.");
+            Console.WriteLine("It depends.");
         }
     }
 }
