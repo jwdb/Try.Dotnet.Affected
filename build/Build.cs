@@ -70,13 +70,17 @@ class Build : NukeBuild,
                 }
                 else
                 {
-                    Console.WriteLine(GitHubActions.GitHubEvent);
                     args.Add("--from {value}", GitHubActions.GitHubEvent["before"]?.ToString());
                 }
             }
 
             DotNetTasks.DotNetToolRestore();
             DotNetTasks.DotNet(args.ToString(), exitHandler: DotnetToolExitHandler);
+
+            if (!File.Exists("affected.json"))
+            {
+                return;
+            }
 
             var toBuildJson = File.ReadAllText("affected.json");
             var affectedProjects = JsonSerializer.Deserialize<AffectedJson[]>(toBuildJson);
