@@ -6,7 +6,7 @@
 
 <h2>Project Screenshots:</h2>
 
-<img src="https://yuki.zip/s/j0ht48azcf.png" alt="project-screenshot" width="400" height="400/">
+<img src="https://yuki.zip/s/j0ht48azcf.png" alt="project-screenshot" />
 
   
   
