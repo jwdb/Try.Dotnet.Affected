@@ -37,7 +37,7 @@ class Build : NukeBuild,
         .Before(Restore)
         .Executes(() =>
         {
-            File.Delete("affected.json");
+            File.Delete("affected.json"); 
         });
 
     Target Restore => definition => definition.Executes(() => { });
