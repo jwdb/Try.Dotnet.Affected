@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <PackageDownload Include="dotnet-affected" Version="[3.2.0]" />
+    <PackageDownload Include="NuGet.CommandLine" Version="[6.7.0]" />
   </ItemGroup>
 
 </Project>
