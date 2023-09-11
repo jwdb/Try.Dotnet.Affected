@@ -1,6 +1,6 @@
 <h1 align="center" id="title">Dotnet Affected 🔍 &amp; Nuke ☢️</h1>
 
-<p id="description">This project shows an example on how to integrate [Dotnet Affected](https://github.com/leonardochaia/dotnet-affected) with [Nuke Build](https://nuke.build/).</p>
+This project shows an example on how to integrate [Dotnet Affected](https://github.com/leonardochaia/dotnet-affected) with [Nuke Build](https://nuke.build/).
 
 <p align="center"><img src="https://img.shields.io/github/actions/workflow/status/jwdb/Try.Dotnet.Affected/continuous.yml" alt="shields"></p>
 
