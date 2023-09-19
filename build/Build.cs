@@ -1,16 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Text.Json;
 using Components;
 using Nuke.Common;
-using Nuke.Common.CI.AzurePipelines;
 using Nuke.Common.CI.GitHubActions;
-using Nuke.Common.Tooling;
-using Nuke.Common.Tools.DotNet;
 
-[SuppressMessage("ReSharper", "UnusedMember.Local")]
 [GitHubActions(
     "continuous",
     GitHubActionsImage.WindowsLatest,
@@ -18,6 +12,7 @@ using Nuke.Common.Tools.DotNet;
     FetchDepth = 0,
     InvokedTargets = new[] { nameof(CompileSolution) })]
 class Build : NukeBuild,
+    IDotnetAffectedTargets,
     ITryDotnetAffectedBuild,
     ITryDotnetAffectedDependencyBuild,
     ITryDotnetAffectedSidestoryBuild,
@@ -26,72 +21,24 @@ class Build : NukeBuild,
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     public static readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
-    AzurePipelines AzurePipelines => AzurePipelines.Instance;
-    GitHubActions GitHubActions => GitHubActions.Instance;
 
     public static Dictionary<string, string> ProjectsToBuild = new();
 
     public static int Main() => Execute<Build>(x => x.CompileSolution);
 
     Target Clean => definition => definition
-        .Before(Restore)
         .Executes(() =>
         {
             File.Delete("affected.json"); 
         });
 
-    Target Restore => definition => definition.Executes(() => { });
-
-    // ReSharper disable once ClassNeverInstantiated.Local
-    record AffectedJson(string Name, string FilePath);
-
-    public Target DotnetAffected => definition => definition
-        .Executes(() =>
-        {
-            var args = new Arguments()
-                .Add("tool")
-                .Add("run")
-                .Add("dotnet-affected")
-                .Add("--format json")
-                .Add("--verbose", condition: Verbosity >= Verbosity.Normal);
-
-            if (AzurePipelines != null)
-            {
-                args.Add("--from {value}", AzurePipelines.PullRequestSourceBranch)
-                    .Add("--to {value}", AzurePipelines.PullRequestTargetBranch);
-            }
-
-            if (GitHubActions != null)
-            {
-                if (GitHubActions.IsPullRequest)
-                {
-                    args.Add("--from {value}", GitHubActions.HeadRef)
-                        .Add("--to {value}", GitHubActions.BaseRef);
-                }
-                else
-                {
-                    args.Add("--from {value}", GitHubActions.GitHubEvent["before"]?.ToString());
-                }
-            }
-
-            DotNetTasks.DotNetToolRestore();
-            DotNetTasks.DotNet(args.ToString(), exitHandler: DotnetToolExitHandler);
-
-            if (!File.Exists("affected.json"))
-            {
-                return;
-            }
-
-            var toBuildJson = File.ReadAllText("affected.json");
-            var affectedProjects = JsonSerializer.Deserialize<AffectedJson[]>(toBuildJson);
-            foreach (var project in affectedProjects)
-            {
-                ProjectsToBuild.Add(project.Name, project.FilePath);
-            }
-        });
+    Target Restore => definition => definition
+        .DependsOn(Clean)
+        .Executes(() => { });
 
     public Target CompileSolution => definition => definition
-        .DependsOn(Restore, DotnetAffected)
+        .DependsOn(Restore)
+        .DependsOn<IDotnetAffectedTargets>(c => c.DotnetAffected)
         .Executes(() => { });
 
     public Target PublishSolution => definition => definition
@@ -104,18 +51,6 @@ class Build : NukeBuild,
 
     public static Func<string, Target> BaseTarget => projectName => 
         definition => definition
-        .DependsOn<Build>(c => c.DotnetAffected)
+        .DependsOn<IDotnetAffectedTargets>(c => c.DotnetAffected)
         .OnlyWhenDynamic(() => ProjectsToBuild.ContainsKey(projectName), $"{projectName} is affected");
-
-    void DotnetToolExitHandler(IProcess obj)
-    {
-        switch (obj.ExitCode)
-        {
-            case 0: // Success
-            case 166: // No changed projects
-                return;
-            default:
-                throw new Exception();
-        }
-    }
 }
