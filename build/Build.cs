@@ -4,7 +4,6 @@ using System.IO;
 using Components;
 using Nuke.Common;
 using Nuke.Common.CI.GitHubActions;
-using Pulumi.Automation;
 
 [GitHubActions(
     "continuous",
@@ -12,6 +11,12 @@ using Pulumi.Automation;
     On = new[] { GitHubActionsTrigger.Push },
     FetchDepth = 0,
     InvokedTargets = new[] { nameof(CompileSolution) })]
+[GitHubActions(
+    "deploy",
+    GitHubActionsImage.WindowsLatest,
+    On = new[] { GitHubActionsTrigger.WorkflowDispatch },
+    FetchDepth = 0,
+    InvokedTargets = new[] { nameof(DeploySolution) })]
 class Build : NukeBuild,
     IDotnetAffectedTargets,
     IPulumiTargets,
