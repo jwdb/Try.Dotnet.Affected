@@ -9,12 +9,13 @@ using Nuke.Common.IO;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.MSBuild;
 using Pulumi.AzureNative.Web;
+using Pulumi.AzureNative.Web.Inputs;
 
 namespace Components;
 
-interface ITryDotnetAffectedStoryApiBuild : INukeBuild
+interface ITryDotnetAffectedProxyStoryApiBuild : INukeBuild
 {
-    const string ProjectName = "Try.Dotnet.Affected.StoryApi";
+    const string ProjectName = "Try.Dotnet.Affected.ProxyStoryApi";
     AbsolutePath OutputDirectory => RootDirectory / "output" / ProjectName;
     AbsolutePath PublishArtifact => RootDirectory / "artifacts" / ProjectName / "api.zip";
 
@@ -22,7 +23,7 @@ interface ITryDotnetAffectedStoryApiBuild : INukeBuild
     static string PublishingPassword;
     static string PublishingAppServiceName;
 
-    Target CleanTryDotnetAffectedStoryApi => definition => definition
+    Target CleanTryDotnetAffectedProxyStoryApi => definition => definition
         .Inherit(Build.BaseTarget(ProjectName))
         .TriggeredBy<Build>(c => c.Clean)
         .Executes(() =>
@@ -31,8 +32,7 @@ interface ITryDotnetAffectedStoryApiBuild : INukeBuild
             File.Delete(PublishArtifact);
         });
 
-
-    Target CompileTryDotnetAffectedStoryApi => definition => definition
+    Target CompileTryDotnetAffectedProxyStoryApi => definition => definition
         .Inherit(Build.BaseTarget(ProjectName))
         .TriggeredBy<Build>(c => c.CompileSolution)
         .Executes(() =>
@@ -47,9 +47,9 @@ interface ITryDotnetAffectedStoryApiBuild : INukeBuild
                 .EnableNodeReuse());
     });
 
-    Target PublishTryDotnetAffectedStoryApi => definition => definition
+    Target PublishTryDotnetAffectedProxyStoryApi => definition => definition
         .Inherit(Build.BaseTarget(ProjectName))
-        .DependsOn(CompileTryDotnetAffectedStoryApi, CleanTryDotnetAffectedStoryApi)
+        .DependsOn(CompileTryDotnetAffectedProxyStoryApi, CleanTryDotnetAffectedProxyStoryApi)
         .TriggeredBy<Build>(c => c.PublishSolution)
         .Executes(() =>
         {
@@ -65,17 +65,30 @@ interface ITryDotnetAffectedStoryApiBuild : INukeBuild
             ZipFile.CreateFromDirectory(OutputDirectory, PublishArtifact);
         });
 
-    Target DeployStackTryDotnetAffectedStoryApi => definition => definition
+    Target DeployStackTryDotnetAffectedProxyStoryApi => definition => definition
         .After<ITryDotnetAffectedDeployBase>(c => c.DeployStackTryDotnetAffectedDeployBase)
+        .After<ITryDotnetAffectedStoryApiBuild>(c => c.DeployStackTryDotnetAffectedStoryApi)
         .Before<IPulumiTargets>(c => c.ProvisionPulumi)
         .DependentFor<IPulumiTargets>(c => c.ProvisionPulumi)
         .Executes(() => 
             IPulumiTargets.Stack.With(() =>
             {
                 var resourceGroupName = IPulumiTargets.Stack.GetOutput<string>("ResourceGroupName");
-                var appService = new WebApp("app", new WebAppArgs
+                var storyApiName = IPulumiTargets.Stack.GetOutput<string>("StoryApiName").Apply(c => $"https://{c}.azurewebsites.net");
+                var appService = new WebApp("app-proxy", new WebAppArgs
                 {
                     ResourceGroupName = resourceGroupName,
+                    SiteConfig = new SiteConfigArgs
+                    {
+                        AppSettings =
+                        {
+                            new NameValuePairArgs
+                            {
+                                Name = "StoryApiUrl",
+                                Value = storyApiName,
+                            }
+                        }
+                    }
                 });
 
                 var publishingCredentials = ListWebAppPublishingCredentials.Invoke(new()
@@ -87,14 +100,12 @@ interface ITryDotnetAffectedStoryApiBuild : INukeBuild
                 publishingCredentials.Apply(c => PublishingUsername = c.PublishingUserName);
                 publishingCredentials.Apply(c => PublishingPassword = c.PublishingPassword);
                 appService.Name.Apply(c => PublishingAppServiceName = c);
-
-                return new { StoryApiName = appService.Name };
             })
         );
 
-    Target PublishStackTryDotnetAffectedStoryApi => definition => definition
+    Target PublishStackTryDotnetAffectedProxyStoryApi => definition => definition
         .Inherit(Build.BaseTarget(ProjectName))
-        .DependsOn(DeployStackTryDotnetAffectedStoryApi, PublishTryDotnetAffectedStoryApi)
+        .DependsOn(DeployStackTryDotnetAffectedProxyStoryApi, PublishTryDotnetAffectedProxyStoryApi)
         .DependsOn<IPulumiTargets>(c => c.ProvisionPulumi)
         .TriggeredBy<Build>(c => c.PublishSolution)
         .Executes(async () =>

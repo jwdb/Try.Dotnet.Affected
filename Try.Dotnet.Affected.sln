@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.cspr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Try.Dotnet.Affected.Tests", "Try.Dotnet.Affected.Tests\Try.Dotnet.Affected.Tests.csproj", "{80314E3D-C575-4895-9E0F-F0DD7F64BEC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Try.Dotnet.Affected.StoryApi", "Try.Dotnet.Affected.StoryApi\Try.Dotnet.Affected.StoryApi.csproj", "{BE3DBDBD-38EE-47CA-AB12-EFE6D9CD04B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Try.Dotnet.Affected.StoryApi", "Try.Dotnet.Affected.StoryApi\Try.Dotnet.Affected.StoryApi.csproj", "{BE3DBDBD-38EE-47CA-AB12-EFE6D9CD04B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Try.Dotnet.Affected.ProxyStoryApi", "Try.Dotnet.Affected.ProxyStoryApi\Try.Dotnet.Affected.ProxyStoryApi.csproj", "{3581007E-84AD-4745-BE95-BEBD7A619B5A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,10 @@ Global
 		{BE3DBDBD-38EE-47CA-AB12-EFE6D9CD04B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE3DBDBD-38EE-47CA-AB12-EFE6D9CD04B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE3DBDBD-38EE-47CA-AB12-EFE6D9CD04B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3581007E-84AD-4745-BE95-BEBD7A619B5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3581007E-84AD-4745-BE95-BEBD7A619B5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3581007E-84AD-4745-BE95-BEBD7A619B5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3581007E-84AD-4745-BE95-BEBD7A619B5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -21,7 +21,8 @@ class Build : NukeBuild,
     ITryDotnetAffectedDependencyBuild,
     ITryDotnetAffectedSidestoryBuild,
     ITryDotnetAffectedTestsBuild,
-    ITryDotnetAffectedStoryApiBuild
+    ITryDotnetAffectedStoryApiBuild,
+    ITryDotnetAffectedProxyStoryApiBuild
 {
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     public static readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
