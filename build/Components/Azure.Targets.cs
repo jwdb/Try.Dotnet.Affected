@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Nuke.Common;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.Chocolatey;
@@ -25,12 +26,12 @@ interface IAzureTargets : INukeBuild
         .Executes(() =>
         {
             ProcessTasks.StartProcess("az", "login --service-principal -u $env:ARM_CLIENT_ID -p $env:ARM_CLIENT_SECRET --tenant $env:ARM_TENANT_ID",
-                    environmentVariables: new Dictionary<string, string>
+                    environmentVariables: EnvironmentInfo.Variables.Concat(new Dictionary<string, string>
                     {
                         { "ARM_TENANT_ID", TenantId },
                         { "ARM_CLIENT_SECRET", ClientSecret },
                         { "ARM_CLIENT_ID", ClientId },
-                    })
+                    }).ToDictionary(c => c.Key, c => c.Value))
                 .WaitForExit();
         });
 }
