@@ -39,4 +39,4 @@ jobs:
           AZURECLIENTID: ${{ secrets.AZURECLIENTID }}
           AZURECLIENTSECRET: ${{ secrets.AZURECLIENTSECRET }}
           AZURETENANTID: ${{ secrets.AZURETENANTID }}
-          PULUMIACCESSTOKEN: ${{ secrets.PULUMIACCESSTOKEN }}
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
