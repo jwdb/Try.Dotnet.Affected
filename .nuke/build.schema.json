@@ -6,6 +6,18 @@
     "build": {
       "type": "object",
       "properties": {
+        "AzureClientId": {
+          "type": "string",
+          "description": "Client ID"
+        },
+        "AzureClientSecret": {
+          "type": "string",
+          "description": "Client Secret"
+        },
+        "AzureTenantId": {
+          "type": "string",
+          "description": "Tenant ID"
+        },
         "Configuration": {
           "type": "string",
           "description": "Configuration to build - Default is 'Debug' (local) or 'Release' (server)",
@@ -62,6 +74,10 @@
             "type": "string"
           }
         },
+        "PulumiAccessToken": {
+          "type": "string",
+          "description": "Access token"
+        },
         "Root": {
           "type": "string",
           "description": "Root directory during build execution"
@@ -72,16 +88,27 @@
           "items": {
             "type": "string",
             "enum": [
+              "AzLogin",
               "Clean",
+              "CleanTryDotnetAffectedStoryApi",
               "CompileSolution",
               "CompileTryDotnetAffected",
               "CompileTryDotnetAffectedDependency",
               "CompileTryDotnetAffectedSidestory",
+              "CompileTryDotnetAffectedStoryApi",
               "CompileTryDotnetAffectedTests",
+              "DeploySolution",
+              "DeployStackTryDotnetAffectedDeployBase",
+              "DeployStackTryDotnetAffectedStoryApi",
               "DotnetAffected",
+              "InstallAzureCli",
+              "InstallPulumi",
+              "ProvisionPulumi",
               "PublishSolution",
+              "PublishStackTryDotnetAffectedStoryApi",
               "PublishTryDotnetAffected",
               "PublishTryDotnetAffectedSidestory",
+              "PublishTryDotnetAffectedStoryApi",
               "Restore",
               "RunTestsSolution",
               "RunTestsTryDotnetAffectedTests"
@@ -94,16 +121,27 @@
           "items": {
             "type": "string",
             "enum": [
+              "AzLogin",
               "Clean",
+              "CleanTryDotnetAffectedStoryApi",
               "CompileSolution",
               "CompileTryDotnetAffected",
               "CompileTryDotnetAffectedDependency",
               "CompileTryDotnetAffectedSidestory",
+              "CompileTryDotnetAffectedStoryApi",
               "CompileTryDotnetAffectedTests",
+              "DeploySolution",
+              "DeployStackTryDotnetAffectedDeployBase",
+              "DeployStackTryDotnetAffectedStoryApi",
               "DotnetAffected",
+              "InstallAzureCli",
+              "InstallPulumi",
+              "ProvisionPulumi",
               "PublishSolution",
+              "PublishStackTryDotnetAffectedStoryApi",
               "PublishTryDotnetAffected",
               "PublishTryDotnetAffectedSidestory",
+              "PublishTryDotnetAffectedStoryApi",
               "Restore",
               "RunTestsSolution",
               "RunTestsTryDotnetAffectedTests"

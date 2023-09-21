@@ -7,3 +7,4 @@ Try.Dotnet.Affected.Tests/TestResults
 Try.Dotnet.Affected.sln.DotSettings.user
 affected.txt
 .nuke/temp
+artifacts/

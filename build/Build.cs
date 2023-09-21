@@ -4,6 +4,7 @@ using System.IO;
 using Components;
 using Nuke.Common;
 using Nuke.Common.CI.GitHubActions;
+using Pulumi.Automation;
 
 [GitHubActions(
     "continuous",
@@ -13,26 +14,29 @@ using Nuke.Common.CI.GitHubActions;
     InvokedTargets = new[] { nameof(CompileSolution) })]
 class Build : NukeBuild,
     IDotnetAffectedTargets,
+    IPulumiTargets,
+    IAzureTargets,
+    ITryDotnetAffectedDeployBase,
     ITryDotnetAffectedBuild,
     ITryDotnetAffectedDependencyBuild,
     ITryDotnetAffectedSidestoryBuild,
-    ITryDotnetAffectedTestsBuild
+    ITryDotnetAffectedTestsBuild,
+    ITryDotnetAffectedStoryApiBuild
 {
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     public static readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
-
     public static Dictionary<string, string> ProjectsToBuild = new();
 
-    public static int Main() => Execute<Build>(x => x.CompileSolution);
+    public static int Main() => Execute<Build>(x => x.DeploySolution);
 
-    Target Clean => definition => definition
+    public Target Clean => definition => definition
         .Executes(() =>
         {
             File.Delete("affected.json"); 
         });
 
-    Target Restore => definition => definition
+    public Target Restore => definition => definition
         .DependsOn(Clean)
         .Executes(() => { });
 
@@ -47,6 +51,10 @@ class Build : NukeBuild,
 
     public Target RunTestsSolution => definition => definition
         .DependsOn(CompileSolution)
+        .Executes(() => { });
+
+    public Target DeploySolution => definition => definition
+        .DependsOn(PublishSolution)
         .Executes(() => { });
 
     public static Func<string, Target> BaseTarget => projectName => 

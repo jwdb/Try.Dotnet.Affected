@@ -2,7 +2,6 @@
 using Nuke.Common.IO;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.MSBuild;
-using Nuke.Common.Tools.NuGet;
 
 namespace Components;
 
@@ -24,7 +23,7 @@ interface ITryDotnetAffectedBuild : INukeBuild
                 .SetConfiguration(Build.Configuration)
                 .EnableRestore()
                 .EnableNodeReuse());
-    });
+        });
 
     Target PublishTryDotnetAffected => definition => definition
         .Inherit(Build.BaseTarget(ProjectName))

@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Try.Dotnet.Affected.Sidesto
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{A17BF7C7-E450-4FE7-B68C-76A9169422AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Try.Dotnet.Affected.Tests", "Try.Dotnet.Affected.Tests\Try.Dotnet.Affected.Tests.csproj", "{80314E3D-C575-4895-9E0F-F0DD7F64BEC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Try.Dotnet.Affected.Tests", "Try.Dotnet.Affected.Tests\Try.Dotnet.Affected.Tests.csproj", "{80314E3D-C575-4895-9E0F-F0DD7F64BEC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Try.Dotnet.Affected.StoryApi", "Try.Dotnet.Affected.StoryApi\Try.Dotnet.Affected.StoryApi.csproj", "{BE3DBDBD-38EE-47CA-AB12-EFE6D9CD04B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{80314E3D-C575-4895-9E0F-F0DD7F64BEC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80314E3D-C575-4895-9E0F-F0DD7F64BEC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80314E3D-C575-4895-9E0F-F0DD7F64BEC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE3DBDBD-38EE-47CA-AB12-EFE6D9CD04B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE3DBDBD-38EE-47CA-AB12-EFE6D9CD04B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE3DBDBD-38EE-47CA-AB12-EFE6D9CD04B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE3DBDBD-38EE-47CA-AB12-EFE6D9CD04B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

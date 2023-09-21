@@ -13,6 +13,8 @@
 
   <ItemGroup>
     <PackageReference Include="Nuke.Common" Version="7.0.5" />
+    <PackageReference Include="Pulumi.Automation" Version="3.56.2" />
+    <PackageReference Include="Pulumi.AzureNative" Version="2.8.0" />
   </ItemGroup>
 
   <ItemGroup>
