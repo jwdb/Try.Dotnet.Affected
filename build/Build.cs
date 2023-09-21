@@ -16,7 +16,8 @@ using Nuke.Common.CI.GitHubActions;
     GitHubActionsImage.WindowsLatest,
     On = new[] { GitHubActionsTrigger.WorkflowDispatch },
     FetchDepth = 0,
-    InvokedTargets = new[] { nameof(DeploySolution) })]
+    InvokedTargets = new[] { nameof(DeploySolution) },
+    ImportSecrets = new []{ "AZURECLIENTID", "AZURECLIENTSECRET", "AZURETENANTID", "PULUMI_ACCESS_TOKEN" })]
 class Build : NukeBuild,
     IDotnetAffectedTargets,
     IPulumiTargets,
