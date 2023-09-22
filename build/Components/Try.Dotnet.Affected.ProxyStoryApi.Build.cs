@@ -78,6 +78,7 @@ interface ITryDotnetAffectedProxyStoryApiBuild : INukeBuild
                 var appService = new WebApp("app-proxy", new WebAppArgs
                 {
                     ResourceGroupName = resourceGroupName,
+                    Location = ITryDotnetAffectedDeployBase.AzureRegion,
                     SiteConfig = new SiteConfigArgs
                     {
                         AppSettings =

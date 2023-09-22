@@ -76,12 +76,13 @@ interface ITryDotnetAffectedStoryApiBuild : INukeBuild
                 var appService = new WebApp("app", new WebAppArgs
                 {
                     ResourceGroupName = resourceGroupName,
+                    Location = ITryDotnetAffectedDeployBase.AzureRegion,
                 });
 
                 var publishingCredentials = ListWebAppPublishingCredentials.Invoke(new()
                 {
                     ResourceGroupName = resourceGroupName,
-                    Name = appService.Name
+                    Name = appService.Name,
                 });
 
                 publishingCredentials.Apply(c => PublishingUsername = c.PublishingUserName);

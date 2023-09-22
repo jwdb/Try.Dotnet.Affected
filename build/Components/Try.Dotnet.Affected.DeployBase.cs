@@ -5,7 +5,7 @@ namespace Components;
 
 interface ITryDotnetAffectedDeployBase : INukeBuild
 {
-    const string AzureRegion = "westeurope";
+    public const string AzureRegion = "westeurope";
 
     Target DeployStackTryDotnetAffectedDeployBase => definition => definition
         .DependsOn<IAzureTargets>(c => c.AzLogin)
@@ -16,7 +16,7 @@ interface ITryDotnetAffectedDeployBase : INukeBuild
             {
                 var resourceGroup = new ResourceGroup("poc-nuke-pulumi", new()
                 {
-                    Location = AzureRegion
+                    Location = AzureRegion,
                 });
 
                 return new { ResourceGroupName = resourceGroup.Name };
