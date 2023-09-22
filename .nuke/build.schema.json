@@ -6,18 +6,6 @@
     "build": {
       "type": "object",
       "properties": {
-        "AzureClientId": {
-          "type": "string",
-          "description": "Client ID"
-        },
-        "AzureClientSecret": {
-          "type": "string",
-          "description": "Client Secret"
-        },
-        "AzureTenantId": {
-          "type": "string",
-          "description": "Tenant ID"
-        },
         "Configuration": {
           "type": "string",
           "description": "Configuration to build - Default is 'Debug' (local) or 'Release' (server)",
@@ -73,10 +61,6 @@
           "items": {
             "type": "string"
           }
-        },
-        "PulumiAccessToken": {
-          "type": "string",
-          "description": "Access token"
         },
         "Root": {
           "type": "string",

@@ -28,7 +28,7 @@ class Build : NukeBuild,
 
     public static Dictionary<string, string> ProjectsToBuild = new();
 
-    public static int Main() => Execute<Build>(x => x.DeploySolution);
+    public static int Main() => Execute<Build>(x => x.CompileSolution);
 
     public Target Clean => definition => definition
         .Executes(() =>
