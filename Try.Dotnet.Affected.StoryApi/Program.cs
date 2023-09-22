@@ -10,7 +10,7 @@ app.UseHttpsRedirection();
 
 var summaries = new[]
 {
-    "a cat", "a dog", "a wild ferret", "the moon", "martians", "kudos", "electrons", "an android", "a blue sky", "rain"
+    "a cat", "a dog", "a wild ferret", "the moon", "martians", "kudos", "electrons", "an android", "a gray sky", "rain"
 };
 
 app.MapGet("/story", () => $"Once upon a time there was a story about {summaries[Random.Shared.Next(0, summaries.Length)]}");
