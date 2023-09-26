@@ -28,7 +28,7 @@ interface IPulumiTargets : INukeBuild
             await workspace.UpAsync(new()
             {
                 OnStandardOutput = Log.Information,
-                OnStandardError = Log.Error
+                OnStandardError = Log.Information
             });
         });
 }
