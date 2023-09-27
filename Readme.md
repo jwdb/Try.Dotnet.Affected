@@ -7,7 +7,7 @@ This project shows an example on how to integrate [Dotnet Affected](https://gith
 
 🪟Project Screenshots:
 --
-<img src="https://yuki.zip/s/j0ht48azcf.png" alt="project-screenshot" />
+<img src="https://raw.githubusercontent.com/jwdb/Try.Dotnet.Affected/main/screenshots/BuildTargets.png" alt="project-screenshot" />
 
 💡Features
 --
